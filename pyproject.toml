@@ -1,0 +1,21 @@
+[tool.poetry]
+name = "bridgecard-apis-wrapper-service"
+version = "0.1.0"
+description = ""
+authors = ["enfinity <festusowumi@gmail.com>"]
+readme = "README.md"
+packages = [{include = "src"}]
+
+[tool.poetry.dependencies]
+python = "^3.9"
+firebase-admin = "5.0.1"
+python-dotenv = "0.19.0"
+pydantic = "1.8.2"
+fastapi = "0.67.0"
+fastapi-versioning = "0.9.1"
+dependency-injector = "4.41.0"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
