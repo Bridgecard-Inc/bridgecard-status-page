@@ -16,6 +16,7 @@ fastapi-versioning = "0.9.1"
 dependency-injector = "4.41.0"
 uvicorn = "0.14.0"
 aiofiles = "0.7.0"
+sse-starlette = "^1.6.5"
 
 
 [build-system]
