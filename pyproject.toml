@@ -15,7 +15,8 @@ fastapi = "0.67.0"
 fastapi-versioning = "0.9.1"
 dependency-injector = "4.41.0"
 uvicorn = "0.14.0"
-aiofiles= "0.7.0"
+aiofiles = "0.7.0"
+
 
 [build-system]
 requires = ["poetry-core"]
