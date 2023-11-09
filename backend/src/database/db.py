@@ -2,37 +2,31 @@ from contextlib import AbstractContextManager, contextmanager
 from typing import Any, Callable
 import firebase_admin
 from firebase_admin import db, credentials
+from pymongo import MongoClient
 from src.core.config import Settings
 from src.utils.decode_base_64_to_json_helper import decode_base_64_to_json
 from src.core.config import settings
 from pydantic import BaseModel
+from urllib.parse import quote_plus
 
 
 class DbSession(BaseModel):
-    admin_db_app: Any
+    db_client: Any
 
 
 class Database:
     def __init__(self, config: Settings) -> None:
-        self._cred = credentials.Certificate(
-            decode_base_64_to_json(config.GOOGLE_CONFIG_BASE64)
-        )
-        self._firebase_app = firebase_admin.initialize_app(
-            self._cred,
-            {
-                "databaseURL": settings.DATABASE_URL,
-                "storageBucket": settings.STORAGE_BUCKET_URL,
-            },
-        )
-        self._admin_db_app = firebase_admin.initialize_app(
-            self._cred,
-            {"databaseURL": settings.ADMIN_DATABASE_URL},
-            name="admin_db_app",
-        )
+        endpoint = 'mongodb://{0}:{1}@{2}'.format(quote_plus(config.DB_USER),
+                                              quote_plus(config.DB_PASSWORD), config.DB_HOST)
+        db_client = MongoClient(endpoint, config.DB_PORT)
+
+        self.db_client = db_client
+        
+        print(db_client)
 
     @contextmanager
     def session(self) -> Callable[..., AbstractContextManager[DbSession]]:
-        db_session = DbSession(admin_db_app=self._admin_db_app)
+        db_session = DbSession(db_client=self.db_client)
         try:
             yield db_session
         except Exception:

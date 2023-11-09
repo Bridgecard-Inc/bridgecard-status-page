@@ -19,6 +19,7 @@ aiofiles = "0.7.0"
 sse-starlette = "^1.6.5"
 anyio = "3.3.0"
 sh = "^2.0.6"
+pymongo = "^4.6.0"
 
 
 [build-system]

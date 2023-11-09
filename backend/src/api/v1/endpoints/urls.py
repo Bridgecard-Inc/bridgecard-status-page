@@ -16,13 +16,13 @@ from typing import List, Optional
 from fastapi_versioning import version
 from fastapi.responses import JSONResponse
 from fastapi import APIRouter, Header, Depends, Request, BackgroundTasks
-from src.usecase.issuing_usecase import IssuingUsecase
+from src.usecase.urls_usecase import UrlsUsecase
 
 
 # core imports
 from src.core.config import settings
 from src.core.error import InvalidToken, MissingPermission, MissingResource
-from src.core.container import Container, expose_issuing_usecase
+from src.core.container import Container, expose_urls_usecase
 
 # crud imports
 
@@ -45,7 +45,7 @@ formatter = logging.Formatter("%(asctime)s - %(name)s - %(levelname)s - %(messag
 fh.setFormatter(formatter)
 logger.addHandler(fh)
 
-router = APIRouter(prefix="/issuing")
+router = APIRouter(prefix="/urls")
 
 
 @router.post("/reward/upload_reward", status_code=200)
@@ -53,7 +53,7 @@ router = APIRouter(prefix="/issuing")
 @inject
 async def upload_rewards(
     data_in: UploadReward,
-    usecase: IssuingUsecase = Depends(expose_issuing_usecase),
+    usecase: UrlsUsecase = Depends(expose_urls_usecase),
 ):
     upload_reward_res = usecase.upload_rewards(data_in)
 

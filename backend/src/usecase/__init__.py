@@ -1,1 +1,1 @@
-from src.usecase.issuing_usecase import IssuingUsecase
+from src.usecase.urls_usecase import UrlsUsecase

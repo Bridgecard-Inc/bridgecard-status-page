@@ -1,11 +1,11 @@
 from contextlib import AbstractContextManager
-from typing import Callable
-from database.db import DbSession
+from typing import Callable, Optional
+from src.database.db import DbSession
 from firebase_admin import db
 
 from src.utils import constants
 from src.core.error import *
-from utils.constants import (
+from src.utils.constants import (
     ADMINISTRATOR_DUPLICATE_ERROR_MESSAGE,
     ADMINISTRATOR_FETCH_ERROR_MESSAGE,
     ADMINISTRATOR_SET_ERROR_MESSAGE,
@@ -20,6 +20,7 @@ class BaseRepository:
         model: str,
     ) -> DbSession:
         with db_session_factory() as db_session:
+
             db_ref = db.reference(model, db_session.admin_db_app)
 
             self.db_ref = db_ref

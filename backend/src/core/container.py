@@ -5,36 +5,34 @@ from src.core.config import settings
 from src.database.db import Database
 from src.repository import *
 from src.usecase import *
-from src.service import *
 from src.utils.constants import BRIDGECARD_ISSUING_SERVICE_BASE_URL
 
 
 class Container(containers.DeclarativeContainer):
     wiring_config = containers.WiringConfiguration(
         modules=[
-            "src.api.v1.endpoints.issuing",
+            "src.api.v1.endpoints.urls",
             # "app.core.dependencies",
         ]
     )
 
     db = providers.Singleton(Database, config=settings)
-
-    issuing_service = providers.Factory(
-        IssuingService,
-        token=settings.BRIDGECARD_ISSUING_LIVE_AUTHORIZATION_TOKEN,
-        base_url=BRIDGECARD_ISSUING_SERVICE_BASE_URL,
-    )
-
-    issuing_usecase = providers.Factory(IssuingUsecase, issuing_service=issuing_service)
-
-
-def expose_issuing_usecase():
     
-    issuing_service = IssuingService(
-        token=settings.BRIDGECARD_ISSUING_LIVE_AUTHORIZATION_TOKEN,
-        base_url=BRIDGECARD_ISSUING_SERVICE_BASE_URL,
+    urls_repository = providers.Factory(
+        UrlsRepository, db_session_factory=db.provided.session
     )
 
-    issuing_usecase = IssuingUsecase(issuing_service=issuing_service)
+    urls_usecase = providers.Factory(UrlsUsecase, urls_repository=urls_repository)
 
-    return issuing_usecase
+
+def expose_urls_usecase():
+
+    db = providers.Singleton(Database, config=settings)
+    
+    urls_repository = providers.Factory(
+        UrlsRepository, db_session_factory=db.provided.session
+    )
+
+    urls_usecase = UrlsUsecase(urls_repository=urls_repository)
+
+    return urls_usecase
