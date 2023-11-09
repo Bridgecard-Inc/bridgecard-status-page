@@ -1,5 +1,5 @@
 [tool.poetry]
-name = "bridgecard-apis-wrapper-service"
+name = "bridgecard-monitoring-service"
 version = "0.1.0"
 description = ""
 authors = ["enfinity <festusowumi@gmail.com>"]
