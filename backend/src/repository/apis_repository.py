@@ -4,11 +4,11 @@ from src.database.db import DbSession
 from src.repository.base_repository import BaseRepository
 
 
-URLS_MODEL_NAME = "urls"
+APIS_MODEL_NAME = "apis"
 
 
-class UrlsRepository(BaseRepository):
+class APIsRepository(BaseRepository):
     def __init__(
         self, db_session_factory: Callable[..., AbstractContextManager[DbSession]]
     ):
-        super().__init__(db_session_factory, URLS_MODEL_NAME)
+        super().__init__(db_session_factory, APIS_MODEL_NAME)

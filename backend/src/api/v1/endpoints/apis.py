@@ -16,7 +16,7 @@ from typing import List, Optional
 from fastapi_versioning import version
 from fastapi.responses import JSONResponse
 from fastapi import APIRouter, Header, Depends, Request, BackgroundTasks
-from src.usecase.urls_usecase import UrlsUsecase
+from backend.src.usecase.apis_usecase import UrlsUsecase
 
 
 # core imports
@@ -45,13 +45,13 @@ formatter = logging.Formatter("%(asctime)s - %(name)s - %(levelname)s - %(messag
 fh.setFormatter(formatter)
 logger.addHandler(fh)
 
-router = APIRouter(prefix="/urls")
+router = APIRouter(prefix="/apis")
 
 
-@router.post("/reward/upload_reward", status_code=200)
+@router.post("/monitoring/add-api", status_code=200)
 @version(1)
 @inject
-async def upload_rewards(
+async def add_api(
     data_in: UploadReward,
     usecase: UrlsUsecase = Depends(expose_urls_usecase),
 ):

@@ -1,1 +1,1 @@
-from .urls_repository import UrlsRepository
+from .apis_repository import APIsRepository
