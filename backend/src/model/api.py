@@ -4,6 +4,6 @@ import uuid
 
 from pydantic import BaseModel
 
-class API_TO_MONITOR(BaseModel): 
+class APITOMONITOR(BaseModel): 
     api_id: Optional[str] = uuid.uuid4().hex
     api_url: str

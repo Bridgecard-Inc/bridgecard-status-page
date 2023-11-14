@@ -19,10 +19,10 @@ class Container(containers.DeclarativeContainer):
     db = providers.Singleton(Database, config=settings)
     
     urls_repository = providers.Factory(
-        UrlsRepository, db_session_factory=db.provided.session
+        APIsRepository, db_session_factory=db.provided.session
     )
 
-    urls_usecase = providers.Factory(UrlsUsecase, urls_repository=urls_repository)
+    urls_usecase = providers.Factory(APIsUsecase, urls_repository=urls_repository)
 
 
 def expose_urls_usecase():
@@ -30,9 +30,9 @@ def expose_urls_usecase():
     db = providers.Singleton(Database, config=settings)
     
     urls_repository = providers.Factory(
-        UrlsRepository, db_session_factory=db.provided.session
+        APIsRepository, db_session_factory=db.provided.session
     )
 
-    urls_usecase = UrlsUsecase(urls_repository=urls_repository)
+    apis_usecase = APIsUsecase(urls_repository=urls_repository)
 
-    return urls_usecase
+    return apis_usecase

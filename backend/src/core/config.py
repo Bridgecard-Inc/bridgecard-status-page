@@ -55,11 +55,11 @@ else:
 
 class Settings(BaseSettings):
     """
-    Set config variables on settins class
+    Set config variables on settings class
 
     """
     ENVIRONMENT = ENVIRONMENT
-    API_TITLE: str = os.environ.get("API_TITLE", "BRIDGECARD ISSUING AUTH SERVICE API")
+    API_TITLE: str = os.environ.get("API_TITLE", "BRIDGECARD MONITORING SERVICE API")
     API_ROOT_PATH: str = os.environ.get("API_ROOT_PATH", "/api")
     DATABASE_URL: str = database_url
     GOOGLE_CONFIG_BASE64: str = google_config_base64

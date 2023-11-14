@@ -1,7 +1,5 @@
 from contextlib import AbstractContextManager, contextmanager
 from typing import Any, Callable
-import firebase_admin
-from firebase_admin import db, credentials
 from pymongo import MongoClient
 from src.core.config import Settings
 from src.utils.decode_base_64_to_json_helper import decode_base_64_to_json
