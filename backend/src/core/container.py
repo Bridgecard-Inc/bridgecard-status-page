@@ -11,7 +11,7 @@ from src.utils.constants import BRIDGECARD_ISSUING_SERVICE_BASE_URL
 class Container(containers.DeclarativeContainer):
     wiring_config = containers.WiringConfiguration(
         modules=[
-            "src.api.v1.endpoints.urls",
+            "src.api.v1.endpoints.apis",
             # "app.core.dependencies",
         ]
     )

@@ -6,7 +6,6 @@ import os
 import logging
 from datetime import datetime
 import uuid
-from firebase_admin import auth
 from dependency_injector.wiring import Provide, inject
 
 # external lib imports
@@ -16,7 +15,7 @@ from typing import List, Optional
 from fastapi_versioning import version
 from fastapi.responses import JSONResponse
 from fastapi import APIRouter, Header, Depends, Request, BackgroundTasks
-from backend.src.usecase.apis_usecase import UrlsUsecase
+from src.usecase.apis_usecase import APIsUsecase
 
 
 # core imports
@@ -53,7 +52,7 @@ router = APIRouter(prefix="/apis")
 @inject
 async def add_api(
     data_in: UploadReward,
-    usecase: UrlsUsecase = Depends(expose_urls_usecase),
+    usecase: APIsUsecase = Depends(expose_urls_usecase),
 ):
     upload_reward_res = usecase.upload_rewards(data_in)
 
