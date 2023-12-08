@@ -11,4 +11,10 @@ class APIsUsecase(BaseUsecase):
 
     def add_api_for_monitoring(self, data_in: APITOMONITOR):
 
-        return 
+      # Use the create method from the repository to add an API to the database
+        created = self.apis_repository.create(data_in.api_id, data_in)
+
+        if created:
+            return "API added successfully"
+        else:
+            return "Failed to add API"

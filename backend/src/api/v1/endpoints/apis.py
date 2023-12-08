@@ -26,7 +26,7 @@ from src.core.container import Container, expose_urls_usecase
 # crud imports
 
 # model imports
-from src.model.issuing import UploadReward
+from src.model.api import APITOMONITOR
 
 # schema imports
 
@@ -44,19 +44,19 @@ formatter = logging.Formatter("%(asctime)s - %(name)s - %(levelname)s - %(messag
 fh.setFormatter(formatter)
 logger.addHandler(fh)
 
-router = APIRouter(prefix="/apis")
+router = APIRouter(prefix="/apis-monitoring")
 
 
-@router.post("/monitoring/add-api", status_code=200)
+@router.post("/add-api", status_code=200)
 @version(1)
 @inject
 async def add_api(
-    data_in: UploadReward,
+    data_in: APITOMONITOR,
     usecase: APIsUsecase = Depends(expose_urls_usecase),
 ):
-    upload_reward_res = usecase.upload_rewards(data_in)
+    add_api_for_monitoring = usecase.add_api_for_monitoring(data_in)
 
-    if not upload_reward_res:
+    if not add_api_for_monitoring:
         return JSONResponse(
             status_code=400,
             content={

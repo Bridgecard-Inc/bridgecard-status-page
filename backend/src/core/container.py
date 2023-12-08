@@ -5,7 +5,7 @@ from src.core.config import settings
 from src.database.db import Database
 from src.repository import *
 from src.usecase import *
-from src.utils.constants import BRIDGECARD_ISSUING_SERVICE_BASE_URL
+
 
 
 class Container(containers.DeclarativeContainer):
@@ -18,11 +18,11 @@ class Container(containers.DeclarativeContainer):
 
     db = providers.Singleton(Database, config=settings)
     
-    urls_repository = providers.Factory(
+    apis_repository = providers.Factory(
         APIsRepository, db_session_factory=db.provided.session
     )
 
-    urls_usecase = providers.Factory(APIsUsecase, urls_repository=urls_repository)
+    apis_usecase = providers.Factory(APIsUsecase, apis_repository=apis_repository)
 
 
 def expose_urls_usecase():
@@ -33,6 +33,6 @@ def expose_urls_usecase():
         APIsRepository, db_session_factory=db.provided.session
     )
 
-    apis_usecase = APIsUsecase(urls_repository=urls_repository)
+    apis_usecase = APIsUsecase(apis_repository=apis_repository)
 
     return apis_usecase
