@@ -21,7 +21,7 @@ from src.usecase.apis_usecase import APIsUsecase
 # core imports
 from src.core.config import settings
 from src.core.error import InvalidToken, MissingPermission, MissingResource
-from src.core.container import Container, expose_urls_usecase
+from src.core.container import Container, expose_apis_usecase
 
 # crud imports
 
@@ -52,7 +52,7 @@ router = APIRouter(prefix="/apis-monitoring")
 @inject
 async def add_api(
     data_in: APITOMONITOR,
-    usecase: APIsUsecase = Depends(expose_urls_usecase),
+    usecase: APIsUsecase = Depends(expose_apis_usecase),
 ):
     add_api_for_monitoring = usecase.add_api_for_monitoring(data_in)
 

@@ -54,7 +54,7 @@ class Settings(BaseSettings):
     DB_HOST: str = db_host
     DB_USER: str = db_user
     DB_PASSWORD: str = db_password
-    DB_PORT: str = db_port
+    DB_PORT: int = db_port
 
     
 

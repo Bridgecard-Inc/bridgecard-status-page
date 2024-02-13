@@ -20,7 +20,7 @@ class BaseRepository:
         db_session_factory: Callable[...,  AbstractContextManager[DbSession]],
         collection_name: str,
     ) -> None:
-        self.collection: Collection = db_session_factory().db_client[collection_name]
+        self.collection: Collection = db_session_factory.db_client[collection_name]
 
     def read_by_id(self, document_id: str, context):
         try:
