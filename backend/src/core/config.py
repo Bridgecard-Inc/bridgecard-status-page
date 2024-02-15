@@ -25,6 +25,7 @@ if ENVIRONMENT == "PRODUCTION":
     db_user: str = os.environ.get("MONGODB_USER", None)
     db_password: str = os.environ.get("MONGODB_PASSWORD", None)
     db_port: str = os.environ.get("MONGODB_PORT", None)
+    db_name: str = os.environ.get("MONGODB_DATABASE_NAME", None)
     
     pass
 
@@ -38,6 +39,8 @@ elif ENVIRONMENT == "DEVELOPMENT" or ENVIRONMENT == "LOCAL":
     db_user: str = os.environ.get("MONGODB_USER", None)
     db_password: str = os.environ.get("MONGODB_PASSWORD", None)
     db_port: str = os.environ.get("MONGODB_PORT", None)
+    db_port: str = os.environ.get("MONGODB_PORT", None)
+    db_name: str = os.environ.get("MONGODB_DATABASE_NAME", None)
 
 else:
     pass
@@ -55,6 +58,7 @@ class Settings(BaseSettings):
     DB_USER: str = db_user
     DB_PASSWORD: str = db_password
     DB_PORT: int = db_port
+    DB_NAME: str = db_name
 
     
 

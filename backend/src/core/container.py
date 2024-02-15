@@ -7,30 +7,58 @@ from src.repository import *
 from src.usecase import *
 
 
-
 class Container(containers.DeclarativeContainer):
     wiring_config = containers.WiringConfiguration(
         modules=[
-            "src.api.v1.endpoints.apis",
+            "src.api.v1.endpoints.resource",
             # "app.core.dependencies",
         ]
     )
 
     db = providers.Singleton(Database, config=settings)
-    
+
     apis_repository = providers.Factory(
-        APIsRepository, db_session_factory=db.provided.session
+        ResourceRepository, db_session_factory=db.provided.session
     )
 
-    apis_usecase = providers.Factory(APIsUsecase, apis_repository=apis_repository)
+    apis_usecase = providers.Factory(ResourceUsecase, apis_repository=apis_repository)
 
 
-def expose_apis_usecase():
+def expose_resource_usecase():
 
     db = Database(config=settings)
-    
-    apis_repository = APIsRepository(db_session_factory=db.session())
 
-    apis_usecase = APIsUsecase(apis_repository=apis_repository)
+    resource_repository = ResourceRepository(db_session_factory=db.session)
 
-    return apis_usecase
+    resource_usecase = ResourceUsecase(resource_repository=resource_repository)
+
+    return resource_usecase
+
+
+def expose_resource_status_usecase():
+
+    db = Database(config=settings)
+
+    resource_status_repository = ResourceStatusRepository(db_session_factory=db.session)
+
+    resource_status_usecase = ResourceStatusUsecase(
+        resource_status_repository=resource_status_repository
+    )
+
+    return resource_status_usecase
+
+
+def expose_downtime_usecase():
+
+    db = Database(config=settings)
+
+    downtime_repository = DowntimeRepository(db_session_factory=db.session)
+
+    resource_status_repository = ResourceStatusRepository(db_session_factory=db.session)
+
+    downtime_usecase = DowntimeUsecase(
+        downtime_repository=downtime_repository,
+        resource_status_repository=resource_status_repository,
+    )
+
+    return downtime_usecase

@@ -11,16 +11,33 @@ from src.utils.constants import (
     ADMINISTRATOR_UPDATE_ERROR_MESSAGE,
 )
 
+from bson import json_util
 
+from bson import ObjectId
 
 
 class BaseRepository:
     def __init__(
         self,
-        db_session_factory: Callable[...,  AbstractContextManager[DbSession]],
+        db_session_factory: Callable[..., AbstractContextManager[DbSession]],
         collection_name: str,
     ) -> None:
-        self.collection: Collection = db_session_factory.db_client[collection_name]
+        with db_session_factory() as db_session:
+
+            self.collection: Collection = db_session.db_client[collection_name]
+
+    def fetch_all(self, context):
+
+        try:
+            pipeline = [{"$addFields": {"_id": {"$toString": "$_id"}}}]
+
+            result = list(self.collection.aggregate(pipeline))
+
+            return result
+
+        except Exception as e:
+
+            return None
 
     def read_by_id(self, document_id: str, context):
         try:
@@ -37,27 +54,31 @@ class BaseRepository:
         except Exception as e:
             return ADMINISTRATOR_UPDATE_ERROR_MESSAGE
 
-    def create(self, document_id: str, schema, context):
+    def create(self, schema, context):
         try:
-            obj_in = schema.dict()
+            obj_in = schema.dict(exclude_none=True)
 
-            if self.collection.find_one({"_id": document_id}):
-                return ADMINISTRATOR_DUPLICATE_ERROR_MESSAGE
+            result = self.collection.insert_one(obj_in)
 
-            obj_in["_id"] = document_id
-            self.collection.insert_one(obj_in)
-            return True
+            new_result = self.collection.find_one({"_id": result.inserted_id})
+
+            return new_result
+
         except Exception as e:
-            return ADMINISTRATOR_SET_ERROR_MESSAGE
+
+            return None
 
     def update(self, document_id: str, schema, context):
         try:
             obj_in = schema.dict()
 
+            document_id = ObjectId(document_id)
+
             self.collection.update_one({"_id": document_id}, {"$set": obj_in})
+            
             return True
         except Exception as e:
-            return ADMINISTRATOR_UPDATE_ERROR_MESSAGE
+            return None
 
     # Implement other CRUD operations similarly
     # ...
@@ -68,11 +89,11 @@ class BaseRepository:
 
             # Convert MongoDB cursor to a list of dictionaries
             dict_data = list(documents)
-            
+
             if not dict_data:
                 return ADMINISTRATOR_FETCH_ERROR_MESSAGE
 
             return dict_data[0]  # Returning the first document found
-            
+
         except Exception as e:
             return ADMINISTRATOR_FETCH_ERROR_MESSAGE
