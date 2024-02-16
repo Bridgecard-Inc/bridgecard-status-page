@@ -18,3 +18,4 @@ class ResourceIn(BaseModel):
     title: str
     url: str
     api_method: Optional[ApiMethod]
+    expected_response_status_code: int
