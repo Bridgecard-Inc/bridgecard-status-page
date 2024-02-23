@@ -31,6 +31,7 @@ from src.model.downtime import DowntimeIn
 # schema imports
 
 # utils imports
+from src.utils.auth import verify_access_token
 
 
 logger = logging.getLogger(__name__)
@@ -53,6 +54,7 @@ router = APIRouter(prefix="/downtime")
 async def add_downtime(
     data_in: DowntimeIn,
     usecase: DowntimeUsecase = Depends(expose_downtime_usecase),
+    access_token: str = Depends(verify_access_token),
 ):
     res = usecase.add_downtime(data_in)
 
@@ -106,6 +108,7 @@ async def update_downtime(
     downtime_id: str,
     data_in: DowntimeIn,
     usecase: DowntimeUsecase = Depends(expose_downtime_usecase),
+    access_token: str = Depends(verify_access_token),
 ):
     res = usecase.update_downtime(downtime_id=downtime_id, update_schema=data_in)
 

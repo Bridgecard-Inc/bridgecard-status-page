@@ -1,3 +1,4 @@
 from .resource_repository import ResourceRepository
 from .resource_status_repository import ResourceStatusRepository
 from .downtime_repository import DowntimeRepository
+from .admin_repository import AdminRepository
