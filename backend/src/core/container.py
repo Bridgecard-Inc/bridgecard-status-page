@@ -62,3 +62,16 @@ def expose_downtime_usecase():
     )
 
     return downtime_usecase
+
+
+def expose_admin_usecase():
+
+    db = Database(config=settings)
+
+    admin_repository = AdminRepository(db_session_factory=db.session)
+
+    admin_usecase = AdminUsecase(
+        admin_repository=admin_repository
+    )
+
+    return admin_usecase
