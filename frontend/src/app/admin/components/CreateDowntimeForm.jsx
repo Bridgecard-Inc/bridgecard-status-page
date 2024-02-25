@@ -4,6 +4,7 @@ import React, { useEffect, useState } from "react";
 import Select from "react-select";
 import makeAnimated from "react-select/animated";
 import axios from "axios";
+import moment from "moment";
 // import { getResources } from "@/utils/fetchData";
 
 export const CreateDowntimeForm = () => {
@@ -88,8 +89,18 @@ export const CreateDowntimeForm = () => {
 
 	const uploadDowntime = async () => {
 		setSubmitting(true);
+		const values = {
+			resource_ids: resourceIds,
+			title: formValues.title,
+			description: formValues.description,
+			start_at: moment(formValues.start_at).unix(),
+			end_at: moment(formValues.end_at).unix(),
+		};
 		try {
-			const res = await axios.post("http://localhost:8080/v1/downtime/");
+			const res = await axios.post(
+				"http://localhost:8080/v1/downtime/",
+				values
+			);
 		} catch (err) {
 		} finally {
 			setSubmitting(false);
@@ -99,18 +110,9 @@ export const CreateDowntimeForm = () => {
 	useEffect(() => {
 		const fetchResources = async () => {
 			setFetching(true);
-			const values = {
-				resource_ids: resourceIds,
-				title: formValues.title,
-				description: formValues.description,
-				start_at: moment(formValues.start_at).unix(),
-				end_at: moment(formValues.end_at).unix(),
-			};
+
 			try {
-				const res = await axios.get(
-					"http://localhost:8080/v1/resource/",
-					values
-				);
+				const res = await axios.get("http://localhost:8080/v1/resource/");
 				console.log("res", res);
 				setResources(res.data.data.resources);
 			} catch (err) {
@@ -126,7 +128,7 @@ export const CreateDowntimeForm = () => {
 		<div className="max-w-[500px] mx-auto mt-20 bg-white border rounded-lg p-5 shadow-xl">
 			<div className="mb-4">
 				<label htmlFor="input" className="block  text-sm font-semibold mb-1">
-					Title
+					Username
 				</label>
 				<input
 					id="input"
@@ -141,7 +143,7 @@ export const CreateDowntimeForm = () => {
 
 			<div className="mb-4">
 				<label htmlFor="input" className="block  text-sm font-semibold mb-1">
-					Description
+					Password
 				</label>
 
 				<textarea

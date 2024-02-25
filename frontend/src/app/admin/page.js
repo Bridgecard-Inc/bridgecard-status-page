@@ -1,6 +1,7 @@
 import React from "react";
 import Image from "next/image";
 import { CreateDowntimeForm } from "./components/CreateDowntimeForm";
+import { LoginModal } from "./components/LoginModal.";
 
 export default function Admin() {
 	return (
@@ -11,6 +12,7 @@ export default function Admin() {
 			</div>
 
 			<CreateDowntimeForm />
+			<LoginModal />
 		</main>
 	);
 }
