@@ -3,6 +3,7 @@ package main
 import (
 	"encoding/json"
 	"fmt"
+	"log"
 	"sync"
 	"time"
 
@@ -12,11 +13,11 @@ import (
 	api_client "github.com/Bridgecard-Inc/bridgecard-status-page/utils/api_client"
 )
 
-func fetchAllResources(bridgecardStatusPageBackendHost string, bridgecardStatusPageBackendPort int) (*[]domain.Resource, error) {
+func fetchAllResources(bridgecardStatusPageBackendHost string, bridgecardStatusPageBackendPort string) (*[]domain.Resource, error) {
 
 	client := api_client.NewHTTPClient()
 
-	url := fmt.Sprintf("http://%s:%d/v1/resource/", bridgecardStatusPageBackendHost, bridgecardStatusPageBackendPort)
+	url := fmt.Sprintf("http://%s:%s/v1/resource/", bridgecardStatusPageBackendHost, bridgecardStatusPageBackendPort)
 
 	_, data, _ := client.Get(url)
 
@@ -30,7 +31,7 @@ func fetchAllResources(bridgecardStatusPageBackendHost string, bridgecardStatusP
 
 }
 
-func addResourceStatus(data domain.ResourceStatusData, bridgecardStatusPageBackendHost string, bridgecardStatusPageBackendPort int) error {
+func addResourceStatus(data domain.ResourceStatusData, bridgecardStatusPageBackendHost string, bridgecardStatusPageBackendPort string) error {
 
 	client := api_client.NewHTTPClient()
 
@@ -40,7 +41,7 @@ func addResourceStatus(data domain.ResourceStatusData, bridgecardStatusPageBacke
 		return err
 	}
 
-	url := fmt.Sprintf("http://%s:%d/v1/resource/status/", bridgecardStatusPageBackendHost, bridgecardStatusPageBackendPort)
+	url := fmt.Sprintf("http://%s:%s/v1/resource/status/", bridgecardStatusPageBackendHost, bridgecardStatusPageBackendPort)
 
 	_, _, err = client.Post(url, jsonData)
 	if err != nil {
@@ -106,7 +107,8 @@ func main() {
 		<-ticker.C
 		resources, err := fetchAllResources(env.BridgecardStatusPageBackendHost, env.BridgecardStatusPageBackendPort)
 		if err != nil {
-			return
+			log.Printf("Error fetching resources: %v", err)
+			continue
 		}
 
 		results := make(chan domain.ResourceStatusData)

@@ -49,5 +49,5 @@ services:
       context: ./
       dockerfile: monitor.dockerfile
     environment:
-      BRIDGECARD_STATUS_PAGE_BACKEND_HOST: localhost
+      BRIDGECARD_STATUS_PAGE_BACKEND_HOST: bridgecard-status-page-backend
       BRIDGECARD_STATUS_PAGE_BACKEND_PORT: 8080
