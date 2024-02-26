@@ -108,7 +108,7 @@ async def update_downtime(
     downtime_id: str,
     data_in: DowntimeIn,
     usecase: DowntimeUsecase = Depends(expose_downtime_usecase),
-    access_token: str = Depends(verify_access_token),
+    username: str = Depends(verify_access_token),
 ):
     res = usecase.update_downtime(downtime_id=downtime_id, update_schema=data_in)
 

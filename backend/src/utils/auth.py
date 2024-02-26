@@ -33,6 +33,6 @@ def verify_access_token(token: Optional[str] = Header(None)):
     except JWTError:
         raise InvalidToken
 
-    return payload
+    return username
 
     

@@ -27,7 +27,8 @@ from src.core import error
 # crud imports
 
 # model imports
-from src.model.admin import AdminIn
+from src.model.admin import AdminIn, AdminSettingsIn
+from src.utils.auth import verify_access_token
 
 # schema imports
 
@@ -64,9 +65,47 @@ async def login_admin(
     return {
         "status": "success",
         "message": "Admin logged in sucessfully",
-        "data": {
-            "access_token": res
-        }
+        "data": {"access_token": res},
     }
 
 
+@router.get("/", status_code=200)
+@version(1)
+@inject
+async def fetch_admin(
+    usecase: AdminUsecase = Depends(expose_admin_usecase),
+    username: str = Depends(verify_access_token),
+):
+    res = usecase.fetch_admin(id=username)
+
+    return {
+        "status": "success",
+        "message": "Admin fetched sucessfully",
+        "data": {"admin": res},
+    }
+
+
+@router.patch("/", status_code=200)
+@version(1)
+@inject
+async def update_admin_settings(
+    data_in: AdminSettingsIn,
+    usecase: AdminUsecase = Depends(expose_admin_usecase),
+    username: str = Depends(verify_access_token),
+):
+    res = usecase.update_admin(id=username, data_in=data_in)
+
+    if not res:
+
+        return JSONResponse(
+            status_code=400,
+            content={
+                "status": "failed",
+                "message": "Unsuccessful, unable to update admin",
+            },
+        )
+
+    return {
+        "status": "success",
+        "message": "Admin updated sucessfully",
+    }

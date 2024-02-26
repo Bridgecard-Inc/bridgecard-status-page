@@ -1,4 +1,5 @@
 from contextlib import AbstractContextManager
+import hashlib
 from typing import Callable, Optional
 from src.database.db import DbSession
 from pymongo.collection import Collection
@@ -39,11 +40,19 @@ class BaseRepository:
 
             return None
 
-    def read_by_id(self, document_id: str, context):
+    def read_by_id(self, id: str, context):
         try:
-            return self.collection.find_one({"_id": document_id})
+            data = self.collection.find_one({"_id": id})
+
+            if not data:
+
+                return {}
+        
+            return data
+        
         except Exception as e:
-            return ADMINISTRATOR_FETCH_ERROR_MESSAGE
+
+            return None
 
     def read_attr(self, document_id: str, field: str, context):
         try:
@@ -54,9 +63,11 @@ class BaseRepository:
         except Exception as e:
             return ADMINISTRATOR_UPDATE_ERROR_MESSAGE
 
-    def create(self, schema, context):
+    def create(self, schema, context, id: Optional[str] = None):
         try:
             obj_in = schema.dict(exclude_none=True)
+
+            obj_in["_id"] = ObjectId(id)
 
             result = self.collection.insert_one(obj_in)
 
@@ -68,14 +79,25 @@ class BaseRepository:
 
             return None
 
-    def update(self, document_id: str, schema, context):
+    def update(self, id: str, schema, context):
         try:
+
             obj_in = schema.dict()
 
-            document_id = ObjectId(document_id)
+            id = ObjectId(hashlib.sha256(id.encode()).hexdigest()[:24])
 
-            self.collection.update_one({"_id": document_id}, {"$set": obj_in})
-            
+            document = self.collection.find_one({"_id": id})
+
+            if document:
+
+                self.collection.update_one({"_id": id}, {"$set": obj_in})
+
+            else:
+
+                obj_in["_id"] = ObjectId(id)
+
+                self.collection.insert_one(obj_in)  
+
             return True
         except Exception as e:
             return None
