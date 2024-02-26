@@ -100,7 +100,7 @@ func main() {
 
 	env := bootstrap.NewEnv()
 
-	ticker := time.NewTicker(5 * time.Second)
+	ticker := time.NewTicker(10 * time.Minute)
 	defer ticker.Stop()
 
 	for {
