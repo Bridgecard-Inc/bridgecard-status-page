@@ -25,7 +25,6 @@ export const LoginModal = ({ setAccessToken }) => {
 				formValues
 			);
 			setAccessToken(res.data.data.access_token);
-			console.log("res", res);
 		} catch (e) {
 			alert(e.data.data.message);
 		} finally {

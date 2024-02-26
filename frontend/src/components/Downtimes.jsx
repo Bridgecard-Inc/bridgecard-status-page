@@ -3,7 +3,7 @@ import { getDowntimes } from "@/utils/fetchData";
 
 const Downtimes = async () => {
 	const data = await getDowntimes();
-	console.log("first", data.data.downtimes);
+
 	return (
 		<div className="w-full grid grid-cols-1 gap-10 mb-20">
 			{data.data.downtimes.map((downtime, index) => {

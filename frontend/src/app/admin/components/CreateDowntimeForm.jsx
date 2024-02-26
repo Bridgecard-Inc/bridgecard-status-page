@@ -107,7 +107,7 @@ export const CreateDowntimeForm = ({ accessToken }) => {
 					},
 				}
 			);
-			console.log("downtimeres", res);
+
 			setMessage(res.data.message);
 			setFormValues({
 				title: "",
@@ -131,10 +131,9 @@ export const CreateDowntimeForm = ({ accessToken }) => {
 
 			try {
 				const res = await axios.get("http://localhost:8080/v1/resource/");
-				console.log("res", res);
+
 				setResources(res.data.data.resources);
 			} catch (err) {
-				console.log("err", err);
 			} finally {
 			}
 		};

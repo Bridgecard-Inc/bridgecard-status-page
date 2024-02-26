@@ -6,8 +6,6 @@ import { getResources } from "@/utils/fetchData";
 const Status = async () => {
 	const data = await getResources();
 
-	console.log("resources", data.data.resources);
-
 	const createEmptyBars = arr => {
 		let barArr = [];
 		if (arr.length < 70) {
