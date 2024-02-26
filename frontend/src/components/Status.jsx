@@ -6,6 +6,8 @@ import { getResources } from "@/utils/fetchData";
 const Status = async () => {
 	const data = await getResources();
 
+	console.log("resources", data.data.resources);
+
 	const createEmptyBars = arr => {
 		let barArr = [];
 		if (arr.length < 70) {
@@ -14,6 +16,16 @@ const Status = async () => {
 
 		return barArr;
 	};
+
+	function last50Elements(array) {
+		// Check if the array has fewer than 50 elements
+		if (array.length <= 70) {
+			return array;
+		}
+
+		// Use slice to get the last 50 elements
+		return array.slice(-70);
+	}
 
 	return (
 		<div className="w-full">
@@ -47,7 +59,7 @@ const Status = async () => {
 										></div>
 									);
 								})}
-								{resource.status.map((status, index) => {
+								{last50Elements(resource.status).map((status, index) => {
 									return (
 										<div
 											key={index}

@@ -7,11 +7,12 @@ import axios from "axios";
 import moment from "moment";
 // import { getResources } from "@/utils/fetchData";
 
-export const CreateDowntimeForm = () => {
+export const CreateDowntimeForm = ({ accessToken }) => {
 	const [resources, setResources] = useState([]);
 	const [resourceIds, setResourceIds] = useState([]);
 	const [fetching, setFetching] = useState(true);
 	const [submitting, setSubmitting] = useState(false);
+	const [message, setMessage] = useState("");
 	const [formValues, setFormValues] = useState({
 		title: "",
 		description: "",
@@ -99,11 +100,28 @@ export const CreateDowntimeForm = () => {
 		try {
 			const res = await axios.post(
 				"http://localhost:8080/v1/downtime/",
-				values
+				values,
+				{
+					headers: {
+						token: accessToken,
+					},
+				}
 			);
+			console.log("downtimeres", res);
+			setMessage(res.data.message);
+			setFormValues({
+				title: "",
+				description: "",
+				start_at: "",
+				end_at: "",
+			});
 		} catch (err) {
 		} finally {
 			setSubmitting(false);
+
+			setTimeout(() => {
+				setMessage("");
+			}, 3000);
 		}
 	};
 
@@ -126,9 +144,10 @@ export const CreateDowntimeForm = () => {
 
 	return (
 		<div className="max-w-[500px] mx-auto mt-20 bg-white border rounded-lg p-5 shadow-xl">
+			<h3 className="text-base font-semibold mb-6">Upload Downtime</h3>
 			<div className="mb-4">
 				<label htmlFor="input" className="block  text-sm font-semibold mb-1">
-					Username
+					Title
 				</label>
 				<input
 					id="input"
@@ -143,7 +162,7 @@ export const CreateDowntimeForm = () => {
 
 			<div className="mb-4">
 				<label htmlFor="input" className="block  text-sm font-semibold mb-1">
-					Password
+					Description
 				</label>
 
 				<textarea
@@ -206,8 +225,16 @@ export const CreateDowntimeForm = () => {
 					onChange={e => setResourceIds(modifyList(e))}
 				/>
 			</div>
-			<button class="bg-black h-[40px] hover:bg-gray-700 text-white font-bold py-2 px-4 rounded w-full">
-				Upload
+
+			{message && (
+				<div className="bg-green-50 h-[40px] text-green-500">{message}</div>
+			)}
+			<button
+				className="bg-black h-[40px] text-white font-bold py-2 px-4 rounded w-full mt-6"
+				disabled={submitting}
+				onClick={uploadDowntime}
+			>
+				{submitting ? "Uploading..." : "Upload"}
 			</button>
 		</div>
 	);
