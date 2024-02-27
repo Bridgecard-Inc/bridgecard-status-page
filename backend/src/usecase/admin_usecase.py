@@ -27,6 +27,6 @@ class AdminUsecase(BaseUsecase):
 
         return self.admin_repository.update(id=id, schema=data_in, context=None)
 
-    def fetch_admin(self, id: str):
+    def fetch_admin(self):
 
-        return self.admin_repository.read_admin_by_id(id=id, context=None)
+        return self.admin_repository.fetch_all(context=None)

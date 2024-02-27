@@ -75,9 +75,17 @@ async def login_admin(
 @inject
 async def fetch_admin(
     usecase: AdminUsecase = Depends(expose_admin_usecase),
-    username: str = Depends(verify_access_token),
 ):
-    res = usecase.fetch_admin(id=username)
+    res = usecase.fetch_admin()
+
+    if len(res) == 0:
+
+        res = {}
+
+    else:
+
+        res = res[0]
+
 
     return {
         "status": "success",
