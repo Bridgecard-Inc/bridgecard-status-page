@@ -16,6 +16,8 @@ RUN yarn install --ignore-engines
 
 RUN yarn build
 
+EXPOSE 8000
+
 # Run the web service on container startup. 
 CMD [ "yarn", "start", "-p", "8000"]
 
