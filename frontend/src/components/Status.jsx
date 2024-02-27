@@ -27,10 +27,6 @@ const Status = async () => {
 
 	return (
 		<div className="w-full">
-			<p className="text-gray-500 text-right mb-1">
-				Uptime over the past 30 days
-			</p>
-
 			{/* <h3 className="text-base font-semibold mb-5">Mono Connect</h3> */}
 
 			{data.data.resources.map((resource, index) => {

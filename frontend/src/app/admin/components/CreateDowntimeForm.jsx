@@ -99,7 +99,7 @@ export const CreateDowntimeForm = ({ accessToken }) => {
 		};
 		try {
 			const res = await axios.post(
-				"http://localhost:8080/v1/downtime/",
+				`http://${process.env.BRIDGECARD_STATUS_PAGE_BACKEND_HOST}:${process.env.BRIDGECARD_STATUS_PAGE_BACKEND_PORT}/v1/downtime/`,
 				values,
 				{
 					headers: {
@@ -130,7 +130,9 @@ export const CreateDowntimeForm = ({ accessToken }) => {
 			setFetching(true);
 
 			try {
-				const res = await axios.get("http://localhost:8080/v1/resource/");
+				const res = await axios.get(
+					`http://${process.env.BRIDGECARD_STATUS_PAGE_BACKEND_HOST}:${process.env.BRIDGECARD_STATUS_PAGE_BACKEND_PORT}/v1/resource/`
+				);
 
 				setResources(res.data.data.resources);
 			} catch (err) {

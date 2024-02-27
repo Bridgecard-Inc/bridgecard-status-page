@@ -21,7 +21,7 @@ export const LoginModal = ({ setAccessToken }) => {
 		setSubmitting(true);
 		try {
 			const res = await axios.post(
-				"http://localhost:8080/v1/admin/login",
+				`http://${process.env.BRIDGECARD_STATUS_PAGE_BACKEND_HOST}:${process.env.BRIDGECARD_STATUS_PAGE_BACKEND_PORT}/v1/admin/login`,
 				formValues
 			);
 			setAccessToken(res.data.data.access_token);
