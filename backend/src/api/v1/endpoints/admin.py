@@ -27,10 +27,11 @@ from src.core import error
 # crud imports
 
 # model imports
-from src.model.admin import AdminIn, AdminSettingsIn
+from src.model.admin import AdminLoginIn, AdminIn
 from src.utils.auth import verify_access_token
 
 # schema imports
+from src.schema.admin import AdminOut 
 
 # utils imports
 
@@ -53,7 +54,7 @@ router = APIRouter(prefix="/admin")
 @version(1)
 @inject
 async def login_admin(
-    data_in: AdminIn,
+    data_in: AdminLoginIn,
     usecase: AdminUsecase = Depends(expose_admin_usecase),
 ):
     res = usecase.login_admin(data_in)
@@ -81,7 +82,7 @@ async def fetch_admin(
     return {
         "status": "success",
         "message": "Admin fetched sucessfully",
-        "data": {"admin": res},
+        "data": {"admin": AdminOut(**res)},
     }
 
 
@@ -89,7 +90,7 @@ async def fetch_admin(
 @version(1)
 @inject
 async def update_admin_settings(
-    data_in: AdminSettingsIn,
+    data_in: AdminIn,
     usecase: AdminUsecase = Depends(expose_admin_usecase),
     username: str = Depends(verify_access_token),
 ):

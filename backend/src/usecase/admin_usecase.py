@@ -1,4 +1,4 @@
-from src.model.admin import AdminIn, AdminSettingsIn
+from src.model.admin import AdminLoginIn, AdminIn
 from src.usecase.base_usecase import BaseUsecase
 from src.repository.admin_repository import AdminRepository
 
@@ -12,7 +12,7 @@ class AdminUsecase(BaseUsecase):
         self.admin_repository = admin_repository
         super().__init__(admin_repository)
 
-    def login_admin(self, data_in: AdminIn):
+    def login_admin(self, data_in: AdminLoginIn):
 
         if (
             data_in.password == settings.SUPERADMIN_PASSWORD
@@ -23,7 +23,7 @@ class AdminUsecase(BaseUsecase):
 
             return encoded_jwt
 
-    def update_admin(self, id: str, data_in: AdminSettingsIn):
+    def update_admin(self, id: str, data_in: AdminIn):
 
         return self.admin_repository.update(id=id, schema=data_in, context=None)
 

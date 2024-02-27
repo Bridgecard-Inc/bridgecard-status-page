@@ -11,8 +11,8 @@ class AdminLoginIn(BaseModel):
     password: str
 
 
-class AdminIn(BaseModel):
+class AdminOut(BaseModel):
 
-    company_name: str
-    company_accent_color: str
-    company_logo_url: str
+    company_name: Optional[str] = ""
+    company_accent_color: Optional[str] = ""
+    company_logo_url: Optional[str] = ""
