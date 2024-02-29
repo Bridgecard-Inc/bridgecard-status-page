@@ -51,3 +51,21 @@ services:
     environment:
       BRIDGECARD_STATUS_PAGE_BACKEND_HOST: bridgecard-status-page-backend
       BRIDGECARD_STATUS_PAGE_BACKEND_PORT: 8080
+
+  bridgecard-status-page-frontend:
+    build:
+      context: ./
+      dockerfile: frontend.dockerfile
+    ports:
+      - 8000:8000
+    environment:
+      BRIDGECARD_STATUS_PAGE_BACKEND_HOST: bridgecard-status-page-backend
+      BRIDGECARD_STATUS_PAGE_BACKEND_PORT: 8080
+
+  nginx:
+    image: nginx
+    restart: always
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf
+    ports:
+      - "80:80"
