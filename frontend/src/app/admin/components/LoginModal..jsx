@@ -18,9 +18,6 @@ export const LoginModal = ({ setAccessToken, admin }) => {
 		});
 	};
 
-	console.log("login stuff", nextConfig.publicRuntimeConfig);
-	const { BACKEND_HOST, BACKEND_PORT } = nextConfig.publicRuntimeConfig;
-
 	// Access the environmental variables
 
 	const login = async e => {
@@ -28,7 +25,7 @@ export const LoginModal = ({ setAccessToken, admin }) => {
 		setSubmitting(true);
 		try {
 			const res = await axios.post(
-				`http://${BACKEND_HOST}:${BACKEND_PORT}/v1/admin/login`,
+				`http://${process.env.NEXT_PUBLIC_BRIDGECARD_STATUS_PAGE_BACKEND_HOST}:${process.env.NEXT_PUBLIC_BRIDGECARD_STATUS_PAGE_BACKEND_PORT}/v1/admin/login`,
 				formValues
 			);
 			setAccessToken(res.data.data.access_token);

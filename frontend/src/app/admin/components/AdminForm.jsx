@@ -19,7 +19,7 @@ export const AdminForm = ({ accessToken, admin }) => {
 		webhook_url: "",
 	});
 
-	const { BACKEND_HOST, BACKEND_PORT } = nextConfig.publicRuntimeConfig;
+	// const { BACKEND_HOST, BACKEND_PORT } = nextConfig.publicRuntimeConfig;
 
 	const handleChange = e => {
 		const { name, value } = e.target; // Get the name of the input and its value
@@ -47,7 +47,7 @@ export const AdminForm = ({ accessToken, admin }) => {
 
 		try {
 			const res = await axios.patch(
-				`http://${backendHost}:${backendPort}/v1/admin/`,
+				`http://${process.env.NEXT_PUBLIC_BRIDGECARD_STATUS_PAGE_BACKEND_HOST}:${process.env.NEXT_PUBLIC_BRIDGECARD_STATUS_PAGE_BACKEND_PORT}/v1/admin/`,
 				formValues,
 				{
 					headers: {
@@ -73,7 +73,7 @@ export const AdminForm = ({ accessToken, admin }) => {
 
 			try {
 				const res = await axios.get(
-					`http://${BACKEND_HOST}:${BACKEND_PORT}/v1/admin/`,
+					`http://${process.env.NEXT_PUBLIC_BRIDGECARD_STATUS_PAGE_BACKEND_HOST}:${process.env.NEXT_PUBLIC_BRIDGECARD_STATUS_PAGE_BACKEND_PORT}/v1/admin/`,
 					{
 						headers: {
 							token: accessToken,

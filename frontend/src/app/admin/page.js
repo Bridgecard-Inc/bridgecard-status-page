@@ -14,10 +14,6 @@ export default function Admin() {
 	const [activeState, toggleActiveState] = useState(1);
 	const [admin, setAdmin] = useState({});
 
-	console.log("first", nextConfig.publicRuntimeConfig);
-
-	const { BACKEND_HOST, BACKEND_PORT } = nextConfig.publicRuntimeConfig;
-
 	// const { publicRuntimeConfig } = getConfig();
 
 	// // Access the environmental variables
@@ -37,7 +33,7 @@ export default function Admin() {
 		async function getAdmin() {
 			try {
 				const res = await axios.get(
-					`http://${BACKEND_HOST}:${BACKEND_PORT}/v1/admin/`
+					`http://${process.env.NEXT_PUBLIC_BRIDGECARD_STATUS_PAGE_BACKEND_HOST}:${process.env.NEXT_PUBLIC_BRIDGECARD_STATUS_PAGE_BACKEND_PORT}/v1/admin/`
 				);
 				setAdmin(res.data.data.admin);
 			} catch (err) {

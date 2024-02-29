@@ -29,8 +29,6 @@ export const CreateDowntimeForm = ({ accessToken, admin }) => {
 		});
 	};
 
-	const { BACKEND_HOST, BACKEND_PORT } = nextConfig.publicRuntimeConfig;
-
 	const animatedComponents = makeAnimated();
 
 	const constructDropdownOption = arr => {
@@ -102,7 +100,7 @@ export const CreateDowntimeForm = ({ accessToken, admin }) => {
 		};
 		try {
 			const res = await axios.post(
-				`http://${BACKEND_HOST}:${BACKEND_PORT}/v1/downtime/`,
+				`http://${process.env.NEXT_PUBLIC_BRIDGECARD_STATUS_PAGE_BACKEND_HOST}:${process.env.NEXT_PUBLIC_BRIDGECARD_STATUS_PAGE_BACKEND_PORT}/v1/downtime/`,
 				values,
 				{
 					headers: {
