@@ -2,7 +2,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 
-export const LoginModal = ({ setAccessToken }) => {
+export const LoginModal = ({ setAccessToken, admin }) => {
 	const [formValues, setFormValues] = useState({
 		username: "",
 		password: "",
@@ -17,7 +17,8 @@ export const LoginModal = ({ setAccessToken }) => {
 		});
 	};
 
-	const login = async () => {
+	const login = async e => {
+		e.preventDefault();
 		setSubmitting(true);
 		try {
 			const res = await axios.post(
@@ -26,7 +27,8 @@ export const LoginModal = ({ setAccessToken }) => {
 			);
 			setAccessToken(res.data.data.access_token);
 		} catch (e) {
-			alert(e.data.data.message);
+			console.log("e", e);
+			// alert(e.data.data.message);
 		} finally {
 			setSubmitting(false);
 		}
@@ -67,9 +69,14 @@ export const LoginModal = ({ setAccessToken }) => {
 				</div>
 
 				<button
-					className="bg-black mt-6 h-[40px]  text-white font-bold py-2 px-4 rounded w-full"
+					className={` ${
+						admin.company_accent_color
+							? `bg-[${admin.company_accent_color}]`
+							: "bg-black"
+					} bg-black mt-6 h-[40px]  text-white font-bold py-2 px-4 rounded w-full`}
 					onClick={login}
 					disabled={submitting}
+					type="button"
 				>
 					{submitting ? "Submitting..." : "Login"}
 				</button>

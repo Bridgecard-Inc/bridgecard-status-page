@@ -231,7 +231,11 @@ export const CreateDowntimeForm = ({ accessToken }) => {
 				<div className="bg-green-50 h-[40px] text-green-500">{message}</div>
 			)}
 			<button
-				className="bg-black h-[40px] text-white font-bold py-2 px-4 rounded w-full mt-6"
+				className={` ${
+					admin.company_accent_color
+						? `bg-[${admin.company_accent_color}]`
+						: "bg-black"
+				} bg-black mt-6 h-[40px]  text-white font-bold py-2 px-4 rounded w-full`}
 				disabled={submitting}
 				onClick={uploadDowntime}
 			>
