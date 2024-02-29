@@ -31,6 +31,24 @@ func fetchAllResources(bridgecardStatusPageBackendHost string, bridgecardStatusP
 
 }
 
+func fetchAdminDetails(bridgecardStatusPageBackendHost string, bridgecardStatusPageBackendPort string) (*domain.Admin, error) {
+
+	client := api_client.NewHTTPClient()
+
+	url := fmt.Sprintf("http://%s:%s/v1/admin/", bridgecardStatusPageBackendHost, bridgecardStatusPageBackendPort)
+
+	_, data, _ := client.Get(url)
+
+	var apiResponse domain.FetchAdminDetailsApiResponse
+
+	if err := json.Unmarshal([]byte(data), &apiResponse); err != nil {
+		return nil, err
+	}
+
+	return &apiResponse.Data.Admin, nil
+
+}
+
 func addResourceStatus(data domain.ResourceStatusData, bridgecardStatusPageBackendHost string, bridgecardStatusPageBackendPort string) error {
 
 	client := api_client.NewHTTPClient()
@@ -52,7 +70,7 @@ func addResourceStatus(data domain.ResourceStatusData, bridgecardStatusPageBacke
 
 }
 
-func pingResource(resource domain.Resource) domain.ResourceStatusData {
+func pingResource(resource domain.Resource, bridgecardStatusPageBackendHost string, bridgecardStatusPageBackendPort string) domain.ResourceStatusData {
 
 	client := api_client.NewHTTPClient()
 
@@ -83,6 +101,20 @@ func pingResource(resource domain.Resource) domain.ResourceStatusData {
 	if statusCode == resource.ExpectedResponseStatusCode {
 
 		monitorSuccess = true
+
+	}
+
+	if !monitorSuccess {
+
+		details, err := fetchAdminDetails(bridgecardStatusPageBackendHost, bridgecardStatusPageBackendPort)
+		if err != nil {
+			log.Printf("Error fetching admin details: %v", err)
+
+		} else {
+
+			_, _, _ = client.Post(details.WebhookUrl, []byte{})
+
+		}
 
 	}
 
@@ -119,7 +151,7 @@ func main() {
 			wg.Add(1)
 			go func(resource domain.Resource) {
 				defer wg.Done()
-				result := pingResource(resource)
+				result := pingResource(resource, env.BridgecardStatusPageBackendHost, env.BridgecardStatusPageBackendPort)
 				results <- result
 			}(resource)
 		}

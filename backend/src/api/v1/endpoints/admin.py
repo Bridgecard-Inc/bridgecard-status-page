@@ -78,7 +78,11 @@ async def fetch_admin(
 ):
     res = usecase.fetch_admin()
 
-    if len(res) == 0:
+    if not res:
+
+        res = {}
+
+    elif len(res) == 0:
 
         res = {}
 
