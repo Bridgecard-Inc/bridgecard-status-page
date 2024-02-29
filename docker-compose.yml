@@ -69,3 +69,18 @@ services:
       - ./nginx.conf:/etc/nginx/nginx.conf
     ports:
       - "80:80"
+
+  rebuild-bridgecard-status-page-frontend:
+    build:
+      context: ./
+      dockerfile: frontend.dockerfile
+    environment:
+      NEXT_PUBLIC_BRIDGECARD_STATUS_PAGE_BACKEND_HOST: bridgecard-status-page-backend
+      NEXT_PUBLIC_BRIDGECARD_STATUS_PAGE_BACKEND_PORT: 8080
+    depends_on:
+      - bridgecard-status-page-frontend
+    command: >
+      sh -c "echo 'Rebuilding container...' &&
+             docker-compose up -d --build bridgecard-status-page-frontend &&
+             echo 'Rebuilding container again...' &&
+             docker-compose up -d --build bridgecard-status-page-frontend"
