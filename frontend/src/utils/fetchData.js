@@ -1,6 +1,10 @@
 export async function getResources() {
+	console.log(
+		"utils",
+		process.env.NEXT_PUBLIC_BRIDGECARD_STATUS_PAGE_BACKEND_HOST
+	);
 	const res = await fetch(
-		`http://${process.env.BRIDGECARD_STATUS_PAGE_BACKEND_HOST}:${process.env.BRIDGECARD_STATUS_PAGE_BACKEND_PORT}/v1/resource/`,
+		`http://${process.env.NEXT_PUBLIC_BRIDGECARD_STATUS_PAGE_BACKEND_HOST}:${process.env.BRIDGECARD_STATUS_PAGE_BACKEND_PORT}/v1/resource/`,
 		{
 			cache: "no-store",
 		}
@@ -18,7 +22,7 @@ export async function getResources() {
 
 export async function getDowntimes() {
 	const res = await fetch(
-		`http://${process.env.BRIDGECARD_STATUS_PAGE_BACKEND_HOST}:${process.env.BRIDGECARD_STATUS_PAGE_BACKEND_PORT}/v1/downtime/`,
+		`http://${process.env.NEXT_PUBLIC_BRIDGECARD_STATUS_PAGE_BACKEND_HOST}:${process.env.NEXT_PUBLIC_BRIDGECARD_STATUS_PAGE_BACKEND_PORT}/v1/downtime/`,
 		{
 			cache: "no-store",
 		}
@@ -36,7 +40,7 @@ export async function getDowntimes() {
 
 export async function getAdmin() {
 	const res = await fetch(
-		`http://${process.env.BRIDGECARD_STATUS_PAGE_BACKEND_HOST}:${process.env.BRIDGECARD_STATUS_PAGE_BACKEND_PORT}/v1/admin/`,
+		`http://${process.env.NEXT_PUBLIC_BRIDGECARD_STATUS_PAGE_BACKEND_HOST}:${process.env.NEXT_PUBLIC_BRIDGECARD_STATUS_PAGE_BACKEND_PORT}/v1/admin/`,
 		{
 			cache: "no-store",
 		}

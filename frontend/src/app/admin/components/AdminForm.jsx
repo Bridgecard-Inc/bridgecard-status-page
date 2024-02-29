@@ -5,11 +5,10 @@ import Select from "react-select";
 import makeAnimated from "react-select/animated";
 import axios from "axios";
 import moment from "moment";
+import nextConfig from "../../../../next.config.mjs";
 // import { getResources } from "@/utils/fetchData";
 
-export const AdminForm = ({ accessToken }) => {
-	const [resources, setResources] = useState([]);
-	const [resourceIds, setResourceIds] = useState([]);
+export const AdminForm = ({ accessToken, admin }) => {
 	const [fetching, setFetching] = useState(true);
 	const [submitting, setSubmitting] = useState(false);
 	const [message, setMessage] = useState("");
@@ -17,7 +16,10 @@ export const AdminForm = ({ accessToken }) => {
 		company_name: "",
 		company_accent_color: "",
 		company_logo_url: "",
+		webhook_url: "",
 	});
+
+	const { BACKEND_HOST, BACKEND_PORT } = nextConfig.publicRuntimeConfig;
 
 	const handleChange = e => {
 		const { name, value } = e.target; // Get the name of the input and its value
@@ -45,7 +47,7 @@ export const AdminForm = ({ accessToken }) => {
 
 		try {
 			const res = await axios.patch(
-				`http://${process.env.BRIDGECARD_STATUS_PAGE_BACKEND_HOST}:${process.env.BRIDGECARD_STATUS_PAGE_BACKEND_PORT}/v1/admin/`,
+				`http://${backendHost}:${backendPort}/v1/admin/`,
 				formValues,
 				{
 					headers: {
@@ -71,7 +73,7 @@ export const AdminForm = ({ accessToken }) => {
 
 			try {
 				const res = await axios.get(
-					`http://${process.env.BRIDGECARD_STATUS_PAGE_BACKEND_HOST}:${process.env.BRIDGECARD_STATUS_PAGE_BACKEND_PORT}/v1/admin/`,
+					`http://${BACKEND_HOST}:${BACKEND_PORT}/v1/admin/`,
 					{
 						headers: {
 							token: accessToken,
@@ -138,6 +140,26 @@ export const AdminForm = ({ accessToken }) => {
 					className="shadow appearance-none border rounded-lg  h-[40px]  w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline placeholder:text-sm"
 					name="company_accent_color"
 					value={formValues.company_accent_color}
+					onChange={handleChange}
+				/>
+			</div>
+
+			<div className="mb-4">
+				<label htmlFor="input" className="block  text-sm font-semibold">
+					Webhook Url
+				</label>
+				<small className="text-xs font-light block mb-1">
+					We make a post request to this endpoint when there is a failure on one
+					of your requests
+				</small>
+
+				<input
+					id="input"
+					type="text"
+					placeholder="Webhook Url"
+					className="shadow appearance-none border rounded-lg  h-[40px]  w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline placeholder:text-sm"
+					name="webhook_url"
+					value={formValues.webhook_url}
 					onChange={handleChange}
 				/>
 			</div>

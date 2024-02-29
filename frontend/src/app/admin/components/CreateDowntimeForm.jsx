@@ -5,9 +5,10 @@ import Select from "react-select";
 import makeAnimated from "react-select/animated";
 import axios from "axios";
 import moment from "moment";
+import nextConfig from "../../../../next.config.mjs";
 // import { getResources } from "@/utils/fetchData";
 
-export const CreateDowntimeForm = ({ accessToken }) => {
+export const CreateDowntimeForm = ({ accessToken, admin }) => {
 	const [resources, setResources] = useState([]);
 	const [resourceIds, setResourceIds] = useState([]);
 	const [fetching, setFetching] = useState(true);
@@ -27,6 +28,8 @@ export const CreateDowntimeForm = ({ accessToken }) => {
 			[name]: value, // Update the corresponding field in the state
 		});
 	};
+
+	const { BACKEND_HOST, BACKEND_PORT } = nextConfig.publicRuntimeConfig;
 
 	const animatedComponents = makeAnimated();
 
@@ -99,7 +102,7 @@ export const CreateDowntimeForm = ({ accessToken }) => {
 		};
 		try {
 			const res = await axios.post(
-				`http://${process.env.BRIDGECARD_STATUS_PAGE_BACKEND_HOST}:${process.env.BRIDGECARD_STATUS_PAGE_BACKEND_PORT}/v1/downtime/`,
+				`http://${BACKEND_HOST}:${BACKEND_PORT}/v1/downtime/`,
 				values,
 				{
 					headers: {

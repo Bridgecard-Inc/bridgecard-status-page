@@ -1,6 +1,7 @@
 "use client";
 import React, { useState } from "react";
 import axios from "axios";
+import nextConfig from "../../../../next.config.mjs";
 
 export const LoginModal = ({ setAccessToken, admin }) => {
 	const [formValues, setFormValues] = useState({
@@ -17,17 +18,22 @@ export const LoginModal = ({ setAccessToken, admin }) => {
 		});
 	};
 
+	console.log("login stuff", nextConfig.publicRuntimeConfig);
+	const { BACKEND_HOST, BACKEND_PORT } = nextConfig.publicRuntimeConfig;
+
+	// Access the environmental variables
+
 	const login = async e => {
 		e.preventDefault();
 		setSubmitting(true);
 		try {
 			const res = await axios.post(
-				`http://${process.env.BRIDGECARD_STATUS_PAGE_BACKEND_HOST}:${process.env.BRIDGECARD_STATUS_PAGE_BACKEND_PORT}/v1/admin/login`,
+				`http://${BACKEND_HOST}:${BACKEND_PORT}/v1/admin/login`,
 				formValues
 			);
 			setAccessToken(res.data.data.access_token);
 		} catch (e) {
-			console.log("e", e);
+			console.log("e", e.response.data.message);
 			// alert(e.data.data.message);
 		} finally {
 			setSubmitting(false);
