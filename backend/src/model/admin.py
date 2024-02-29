@@ -16,3 +16,4 @@ class AdminIn(BaseModel):
     company_name: str
     company_accent_color: str
     company_logo_url: str
+    webhook_url: str

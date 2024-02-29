@@ -59,8 +59,8 @@ services:
     ports:
       - 8000:8000
     environment:
-      BRIDGECARD_STATUS_PAGE_BACKEND_HOST: bridgecard-status-page-backend
-      BRIDGECARD_STATUS_PAGE_BACKEND_PORT: 8080
+      NEXT_PUBLIC_BRIDGECARD_STATUS_PAGE_BACKEND_HOST: bridgecard-status-page-backend
+      NEXT_PUBLIC_BRIDGECARD_STATUS_PAGE_BACKEND_PORT: 8080
 
   nginx:
     image: nginx
