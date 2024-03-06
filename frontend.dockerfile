@@ -14,7 +14,7 @@ RUN yarn install --ignore-engines
 
 # Copy local code to the container image.
 
-ENV NEXT_PUBLIC_BRIDGECARD_STATUS_PAGE_BACKEND_HOST bridgecard-status-page-bridgecard-status-page-backend-1
+ENV NEXT_PUBLIC_BRIDGECARD_STATUS_PAGE_BACKEND_HOST bridgecard-status-page-backend-1
 
 ENV NEXT_PUBLIC_BRIDGECARD_STATUS_PAGE_BACKEND_PORT 8080
 
