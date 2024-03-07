@@ -132,7 +132,7 @@ export const CreateDowntimeForm = ({ accessToken, admin }) => {
 
 			try {
 				const res = await axios.get(
-					`http://${process.env.BRIDGECARD_STATUS_PAGE_BACKEND_HOST}:${process.env.BRIDGECARD_STATUS_PAGE_BACKEND_PORT}/v1/resource/`
+					`http://${process.env.NEXT_PUBLIC_BRIDGECARD_STATUS_PAGE_BACKEND_HOST}:${process.env.NEXT_PUBLIC_BRIDGECARD_STATUS_PAGE_BACKEND_PORT}/v1/resource/`
 				);
 
 				setResources(res.data.data.resources);

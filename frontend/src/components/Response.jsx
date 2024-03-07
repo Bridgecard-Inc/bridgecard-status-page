@@ -10,10 +10,10 @@ const Response = async () => {
 	return (
 		<main className="min-h-full max-w-[800px] mx-auto md:py-20 py-20">
 			<div className="flex flex-row justify-between items-center mb-10">
-				{admin.company_logo_url ? (
-					<Image src={company_logo_url} width={155} height={40} />
-				) : admin.company_name ? (
-					<p className=" font-semibold text-base">{admin.company_name}</p>
+				{admin?.company_logo_url ? (
+					<p>test</p>
+				) : admin?.company_name ? (
+					<p className=" font-semibold text-base">{admin?.company_name}</p>
 				) : (
 					<p className=" font-semibold text-base">Company's Name</p>
 				)}

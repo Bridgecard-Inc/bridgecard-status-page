@@ -31,6 +31,7 @@ const Status = async () => {
 			{/* <h3 className="text-base font-semibold mb-5">Mono Connect</h3> */}
 
 			{data.data.resources.map((resource, index) => {
+				const lastStatus = resource.status[resource.status.length - 1];
 				return (
 					<div
 						className=" px-6 py-7 pb-0 border-b  last-of-type:border-b-0"
@@ -41,8 +42,14 @@ const Status = async () => {
 								<h3 className="text-base font-semibold capitalize">
 									{resource.title}
 								</h3>
-								<p className="text-base font-base text-green-500">
-									Operational
+								<p
+									className={
+										lastStatus.monitor_success
+											? `text-base font-base text-green-500`
+											: `text-base font-base text-red-500`
+									}
+								>
+									{lastStatus.monitor_success ? "Operational" : "Downtime"}
 								</p>
 							</div>
 							<div className="flex flex-row justify-between pb-6  ">
