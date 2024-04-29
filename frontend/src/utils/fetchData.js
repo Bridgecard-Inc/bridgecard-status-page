@@ -14,7 +14,7 @@ export async function getResources() {
 
 	if (!res.ok) {
 		// This will activate the closest `error.js` Error Boundary
-		throw new Error("Failed to fetch data");
+		console.log("an error occured");
 	}
 
 	return res.json();
@@ -32,7 +32,7 @@ export async function getDowntimes() {
 
 	if (!res.ok) {
 		// This will activate the closest `error.js` Error Boundary
-		throw new Error("Failed to fetch data");
+		console.log("an error occured");
 	}
 
 	return res.json();
@@ -50,7 +50,7 @@ export async function getAdmin() {
 
 	if (!res.ok) {
 		// This will activate the closest `error.js` Error Boundary
-		throw new Error("Failed to fetch data");
+		console.log("an error occured");
 	}
 
 	return res.json();

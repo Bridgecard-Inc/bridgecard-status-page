@@ -20,8 +20,8 @@ const Response = async () => {
 
 				<p className=" font-normal text-base">Api Status Page</p>
 			</div>
-			<Downtimes />
-			<Status />
+			{/* <Downtimes />
+			<Status /> */}
 		</main>
 	);
 };
