@@ -4,6 +4,7 @@ import { getAdmin } from "@/utils/fetchData";
 
 const Downtimes = async () => {
 	const data = await getDowntimes();
+	console.log("dowmtimes", data);
 
 	function last5Elements(array) {
 		// Check if the array has fewer than 50 elements

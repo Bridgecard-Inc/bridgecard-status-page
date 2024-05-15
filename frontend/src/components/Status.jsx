@@ -6,7 +6,7 @@ import { formatEpoch } from "@/utils/formatDate";
 
 const Status = async () => {
 	const data = await getResources();
-
+	console.log("status", data.data.resources[0].status);
 	const createEmptyBars = arr => {
 		let barArr = [];
 		if (arr.length < 80) {
@@ -31,7 +31,7 @@ const Status = async () => {
 			{/* <h3 className="text-base font-semibold mb-5">Mono Connect</h3> */}
 
 			{data.data.resources.map((resource, index) => {
-				const lastStatus = resource.status[resource.status.length - 1];
+				const lastStatus = resource?.status[resource.status.length - 1];
 				return (
 					<div
 						className=" px-6 py-7 pb-0 border-b  last-of-type:border-b-0"
@@ -40,11 +40,11 @@ const Status = async () => {
 						<div>
 							<div className="w-full flex flex-row justify-between items-center mb-1 ">
 								<h3 className="text-base font-semibold capitalize">
-									{resource.title}
+									{resource?.title}
 								</h3>
 								<p
 									className={
-										lastStatus.monitor_success
+										lastStatus?.monitor_success
 											? `text-base font-base text-green-500`
 											: `text-base font-base text-red-500`
 									}
@@ -53,7 +53,7 @@ const Status = async () => {
 								</p>
 							</div>
 							<div className="flex flex-row justify-between pb-6  ">
-								{createEmptyBars(resource.status).map((bar, index) => {
+								{createEmptyBars(resource?.status).map((bar, index) => {
 									return (
 										<div
 											key={index}
@@ -61,7 +61,7 @@ const Status = async () => {
 										></div>
 									);
 								})}
-								{last50Elements(resource.status).map((status, index) => {
+								{last50Elements(resource?.status).map((status, index) => {
 									return (
 										<div key={index} className="group relative flex flex-col">
 											<div
@@ -74,10 +74,10 @@ const Status = async () => {
 											<div className=" bg-white border-2 rounded shadow-lg p-3 scale-0 group-hover:scale-100 absolute left-[-40px] bottom-[-82px] w-[300px] z-10">
 												{" "}
 												<p className="text-sm font-light">
-													{formatEpoch(status.monitored_at)}
+													{formatEpoch(status?.monitored_at)}
 												</p>
 												<p className="text-sm font-light mt-2">
-													{status.monitor_success
+													{status?.monitor_success
 														? "No downtime recorded"
 														: "Downtime was recorded"}
 												</p>

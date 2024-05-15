@@ -2,11 +2,12 @@ import React from "react";
 import Image from "next/image";
 import Status from "./Status";
 import Downtimes from "./Downtimes";
-// import { getAdmin } from "@/utils/fetchData";
+import { getAdmin } from "@/utils/fetchData";
 
 const Response = async () => {
-	// const data = await getAdmin();
-	const admin = {};
+	const data = await getAdmin();
+	const admin = data.data.admin;
+
 	return (
 		<main className="min-h-full max-w-[800px] mx-auto md:py-20 py-20">
 			<div className="flex flex-row justify-between items-center mb-10">
@@ -20,8 +21,8 @@ const Response = async () => {
 
 				<p className=" font-normal text-base">Api Status Page</p>
 			</div>
-			{/* <Downtimes />
-			<Status /> */}
+			<Downtimes />
+			<Status />
 		</main>
 	);
 };
